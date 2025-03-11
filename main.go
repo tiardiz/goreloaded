@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // Функция обработки файла
