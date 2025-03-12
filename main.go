@@ -1,105 +1,101 @@
 package main
-
 import (
-	"bufio"
 	"fmt"
 	"os"
-	"regexp"
-	"strconv"
 	"strings"
-)
+	"strconv"
+   )
+   
+   func capitalizeWord(word string) string {
+	if len(word) == 0 {
+	 return word
+	}
+	return strings.ToUpper(string(word[0])) + word[1:]
+   }
+   func ToUpperWord(word string) string{
+	if len(word) == 0{
+		return word
+	}
+	return strings.ToUpper(word)
+   }
 
-// Функция обработки файла
-func processFile(inputFile, outputFile string) {
-	// Открываем входной файл
-	file, err := os.Open(inputFile)
+   func ToLowerWord(word string) string{
+	if len(word) == 0{
+		return word
+	}
+	return strings.ToLower(word)
+   }
+   
+   func main() {
+	inputFile := "sample.txt"
+	outputFile := "result.txt"
+   
+	content, err := os.ReadFile(inputFile)
 	if err != nil {
-		fmt.Println("Ошибка при открытии файла:", err)
-		return
+	 fmt.Println("Ошибка при чтении файла:", err)
+	 return
 	}
-	defer file.Close()
+	text := string(content)
+   
+	// Разбиваем текст на слова
+	words := strings.Split(text, " ")
+   
+	// Проходим по словам и ищем (cap)
+	for i := 0; i < len(words)-1; i++ {
+	 if words[i+1] == "(cap)" {
+	  words[i] = capitalizeWord(words[i])
+	 }
+	 if words[i] == "(cap)" {
+		words[i] = strings.TrimPrefix(words[i], "(cap)")
+	}
+	 if words[i+1] == "(up)"{
+		words[i] = ToUpperWord(words[i])
+		words = append(words[:i+1], words[i+2:]...)
+		i-- 
+	 }
+	 if words[i+1] == "(low)"{
+		words[i] = ToLowerWord(words[i])
+	 }
+	 if words[i] == "(low)"{
+		words[i] = strings.TrimPrefix(words[i], "(low)")
+	 }
+	 if words[i+1] == "(hex)" {
+		// Преобразуем текущий элемент в десятичное число из шестнадцатеричной строки
+		decimalValue, err := strconv.ParseInt(words[i], 16, 64)
+		if err != nil {
+			// Если произошла ошибка, выводим ее
+			//fmt.Println("Ошибка при преобразовании:", err)
+			continue
+		}
 
-	// Создаем выходной файл
-	outFile, err := os.Create(outputFile)
+		// Преобразуем число обратно в строку и записываем в words[i]
+		words[i] = strconv.FormatInt(decimalValue, 10)
+		// Удаляем элемент "(hex)" из массива
+		words = append(words[:i+1], words[i+2:]...)
+		i-- // уменьшаем индекс, чтобы снова проверить на текущей позиции
+	}
+	if words[i+1] == "(bin)" {
+		decimalValue, err := strconv.ParseInt(words[i], 2, 64)
+		if err != nil {
+			//fmt.Println("Ошибка при преобразовании:", err)
+			continue
+		}
+		words[i] = strconv.FormatInt(decimalValue, 10)
+		words = append(words[:i+1], words[i+2:]...)
+		i--
+	}
+
+	 }
+	
+	// Собираем текст обратно
+	editedText := strings.Join(words, " ")
+   
+	// Записываем в новый файл
+	err = os.WriteFile(outputFile, []byte(editedText), 0644)
 	if err != nil {
-		fmt.Println("Ошибка при создании выходного файла:", err)
-		return
+	 fmt.Println("Ошибка при записи файла:", err)
+	 return
 	}
-	defer outFile.Close()
-
-	// Чтение файла построчно
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Применяем преобразования
-		line = applyTransformations(line)
-
-		// Записываем результат в выходной файл
-		_, err := outFile.WriteString(line + "\n")
-		if err != nil {
-			fmt.Println("Ошибка при записи в файл:", err)
-			return
-		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		fmt.Println("Ошибка при чтении файла:", err)
-	}
-}
-
-// Функция для применения преобразований
-func applyTransformations(line string) string {
-	// Преобразование "it" в "It", "IT" в "IT", и т.д.
-	line = strings.ReplaceAll(line, "it", "It")
-	line = strings.ReplaceAll(line, "IT", "IT")
-
-	// Преобразование шестнадцатеричных и двоичных чисел в десятичные
-	line = convertHexAndBinToDecimal(line)
-
-	// Исправление пунктуации
-	line = fixPunctuation(line)
-
-	return line
-}
-
-// Функция для преобразования шестнадцатеричных и двоичных чисел
-func convertHexAndBinToDecimal(line string) string {
-	// Ищем все числа в формате (hex), (bin)
-	re := regexp.MustCompile(`\((hex|bin)\s*([0-9a-fA-F]+)\)`)
-	line = re.ReplaceAllStringFunc(line, func(match string) string {
-		// Получаем тип числа и само число
-		reMatch := regexp.MustCompile(`\((hex|bin)\s*([0-9a-fA-F]+)\)`).FindStringSubmatch(match)
-		numType := reMatch[1]
-		num := reMatch[2]
-
-		var decimalValue int
-		var err error
-		if numType == "hex" {
-			decimalValue, err = strconv.ParseInt(num, 16, 0)
-		} else if numType == "bin" {
-			decimalValue, err = strconv.ParseInt(num, 2, 0)
-		}
-
-		if err != nil {
-			return match
-		}
-
-		return strconv.Itoa(int(decimalValue))
-	})
-
-	return line
-}
-
-// Функция для исправления пунктуации
-func fixPunctuation(line string) string {
-	// Убираем пробелы перед запятой и точками
-	line = strings.ReplaceAll(line, " ,", ",")
-	line = strings.ReplaceAll(line, " .", ".")
-	return line
-}
-
-func main() {
-	// Обрабатываем файл
-	processFile("sample.txt", "result.txt")
-}
+   
+	fmt.Println("Файл успешно обработан и сохранён как", outputFile)
+   }
