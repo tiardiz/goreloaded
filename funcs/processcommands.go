@@ -58,6 +58,8 @@ func ProcessCommands(words []string) []string {
 			}
 			continue
 		}
+
+		// Обработка (low)
 		if words[i] == "(low)" {
 			if i-1 >= 0 {
 				words[i-1] = strings.ToLower(words[i-1])
@@ -67,7 +69,7 @@ func ProcessCommands(words []string) []string {
 			continue
 		}
 
-		// Обработка (cap, <число>)
+		// Обработка (low, <число>)
 		if strings.HasPrefix(words[i], "(low,") {
 			if i+1 < len(words) && strings.HasSuffix(words[i+1], ")") {
 				numStr := strings.TrimSuffix(words[i+1], ")")
@@ -83,6 +85,11 @@ func ProcessCommands(words []string) []string {
 			continue
 		}
 	}
+
+	// После обработки всех команд корректируем артикли
+	text := strings.Join(words, " ")       // Собираем слова в текст
+	correctedText := CorrectArticles(text) // Применяем корректировку артиклей
+	words = strings.Fields(correctedText)  // Разбиваем текст обратно на слова
 
 	return words
 }
