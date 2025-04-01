@@ -24,7 +24,7 @@ func main() {
 	text := string(content)
 
 	// Обработка текста
-	processedText := firstproject.ProcessText(text)
+	processedText := firstproject.ModifytText(text)
 
 	// Запись результата в файл
 	err = os.WriteFile(outputFile, []byte(processedText), 0o644)
