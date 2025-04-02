@@ -23,10 +23,8 @@ func main() {
 	}
 	text := string(content)
 
-	// Обработка текста
 	processedText := firstproject.ModifytText(text)
 
-	// Запись результата в файл
 	err = os.WriteFile(outputFile, []byte(processedText), 0o644)
 	if err != nil {
 		fmt.Println("Ошибка при записи файла:", err)

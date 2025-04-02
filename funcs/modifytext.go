@@ -8,18 +8,25 @@ import (
 func ModifytText(text string) string {
 	lines := strings.Split(text, "\n")
 
-	// Обрабатываем каждую строку
-	for i, line := range lines {
-		doposlekavychek := regexp.MustCompile(`(['"])\s(.*?)\s(['"])`)
-		lines[i] = doposlekavychek.ReplaceAllString(lines[i], "$2$3")
-		probelsperedcsymbols := regexp.MustCompile(`\s([.,;!?(){}[\]-])`)
-		lines[i] = probelsperedcsymbols.ReplaceAllString(line, "$1")
+	for i := range lines {
+
+		addprobelposlesymbols := regexp.MustCompile(`([,.!?)}])(\S)`)
+		lines[i] = addprobelposlesymbols.ReplaceAllString(lines[i], "$1 $2")
+		removeprobelsperedcsymbols := regexp.MustCompile(`\s*([.,;!?)}[\]-])`)
+		lines[i] = removeprobelsperedcsymbols.ReplaceAllString(lines[i], "$1")
+		doposlekavychek := regexp.MustCompile(`'\s*(.*?)\s*'`)
+		lines[i] = doposlekavychek.ReplaceAllString(lines[i], "'$1'")
+		doposlekavychek2 := regexp.MustCompile(`"\s*(.*?)\s*"`)
+		lines[i] = doposlekavychek2.ReplaceAllString(lines[i], "\"$1\"")
+		probelperedskopsadd := regexp.MustCompile(`([^\s])([[{(])`)
+		lines[i] = probelperedskopsadd.ReplaceAllString(lines[i], "$1 $2")
+		probelperedskops := regexp.MustCompile(`\s+([{(])`)
+		lines[i] = probelperedskops.ReplaceAllString(lines[i], " $1")
 		probels := regexp.MustCompile(`\s+`)
 		lines[i] = probels.ReplaceAllLiteralString(strings.TrimSpace(lines[i]), " ")
 
 	}
 
-	// Объединяем строки обратно в текст с сохранением символов новой строки
 	cleanedText := strings.Join(lines, "\n")
 
 	return cleanedText
