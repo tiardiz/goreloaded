@@ -10,20 +10,38 @@ func ModifytText(text string) string {
 
 	for i := range lines {
 
-		addprobelposlesymbols := regexp.MustCompile(`([,.!?)}])(\S)`)
-		lines[i] = addprobelposlesymbols.ReplaceAllString(lines[i], "$1 $2")
-		removeprobelsperedcsymbols := regexp.MustCompile(`\s*([.,;!?)}[\]-])`)
-		lines[i] = removeprobelsperedcsymbols.ReplaceAllString(lines[i], "$1")
-		doposlekavychek := regexp.MustCompile(`'\s*(.*?)\s*'`)
-		lines[i] = doposlekavychek.ReplaceAllString(lines[i], "'$1'")
-		doposlekavychek2 := regexp.MustCompile(`"\s*(.*?)\s*"`)
-		lines[i] = doposlekavychek2.ReplaceAllString(lines[i], "\"$1\"")
-		probelperedskopsadd := regexp.MustCompile(`([^\s])([[{(])`)
-		lines[i] = probelperedskopsadd.ReplaceAllString(lines[i], "$1 $2")
-		probelperedskops := regexp.MustCompile(`\s+([{(])`)
-		lines[i] = probelperedskops.ReplaceAllString(lines[i], " $1")
-		probels := regexp.MustCompile(`\s+`)
-		lines[i] = probels.ReplaceAllLiteralString(strings.TrimSpace(lines[i]), " ")
+		quoteCount := 0
+
+		for _, ch := range lines[i] {
+			if ch == '"' {
+				quoteCount++
+			}
+		}
+		if quoteCount%2 != 0 {
+			lines[i] = "Error: missing pair of quotes"
+			continue
+		}
+		// what( is' it".    ->      what ( is' it ".
+		AddSpaceBeforeBraces := regexp.MustCompile(`([^ \t\r\n])(["({[\]])`)
+		lines[i] = AddSpaceBeforeBraces.ReplaceAllString(lines[i], "$1 $2")
+		// word ( up) -> word (up)
+		RemoveSpacesAfterBraces := regexp.MustCompile(`(["({[\]])\s*`)
+		lines[i] = RemoveSpacesAfterBraces.ReplaceAllString(lines[i], "$1")
+		// 1. what ,is it? -> what , is it?
+		AddSpaceAfterPreps := regexp.MustCompile(`([,.!?)}])(\S)`)
+		lines[i] = AddSpaceAfterPreps.ReplaceAllString(lines[i], "$1 $2")
+		// '   herro ' toyota -> 'herro' toyota
+		RemoveSpacesQuote := regexp.MustCompile(`'\s*(.*?)\s*'`)
+		lines[i] = RemoveSpacesQuote.ReplaceAllString(lines[i], "'$1' ")
+		// "  toyota " "" " mitsubishi "-> "toyota" "" "mitsubishi"
+		RemoveSpaces2Quote := regexp.MustCompile(`"\s*(.*?)\s*"`)
+		lines[i] = RemoveSpaces2Quote.ReplaceAllString(lines[i], "\"$1\" ")
+		// 2. what , is it? -> what, is it?
+		RemoveSpacesBeforePreps := regexp.MustCompile(`\s*([.,;!?)}[\]-])`)
+		lines[i] = RemoveSpacesBeforePreps.ReplaceAllString(lines[i], "$1")
+		// убирает лишние пробелы
+		RemoveSapces := regexp.MustCompile(`\s+`)
+		lines[i] = RemoveSapces.ReplaceAllLiteralString(strings.TrimSpace(lines[i]), " ")
 
 	}
 
