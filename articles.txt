@@ -30,7 +30,7 @@ a a a a a
 A A A A A
 A A A A A
 
-a or b
+a Or b
 a or b
 
 an, a and the
