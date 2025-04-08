@@ -15,7 +15,6 @@ func main() {
 	inputFile := os.Args[1]
 	outputFile := os.Args[2]
 
-	// Чтение файла
 	content, err := os.ReadFile(inputFile)
 	if err != nil {
 		fmt.Println("Ошибка при чтении файла:", err)
@@ -23,7 +22,7 @@ func main() {
 	}
 	text := string(content)
 
-	processedText := firstproject.ModifytText(text)
+	processedText := firstproject.ProcessText(text)
 
 	err = os.WriteFile(outputFile, []byte(processedText), 0o644)
 	if err != nil {
