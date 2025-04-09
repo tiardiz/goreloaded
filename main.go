@@ -13,7 +13,7 @@ func main() {
 	}
 
 	inputFile := os.Args[1]
-	outputFile := os.Args[2]
+	outputFile := "result.txt"
 
 	content, err := os.ReadFile(inputFile)
 	if err != nil {

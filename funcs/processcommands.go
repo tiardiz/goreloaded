@@ -1,11 +1,27 @@
+// package firstproject
+
+// func ProcessCommands(words []string) []string {
+// 	result := UpCommand(words)
+// 	result = LowCommand(result)
+// 	result = CapCommand(result)
+// 	result = BinProcess(result)
+// 	result = HexProcess(result)
+// 	result = BinProcess(result)
+// 	result = LowCommand(result)
+// 	result = LowCommand(result)
+
+// 	correctedText := CorrectArticles(result)
+// 	return correctedText
+// }
+
 package firstproject
 
 import (
 	"strings"
-	"unicode"
 )
 
-func ProcessCommands(words []string) []string {
+func ProcessCommands(words []string) ([]string, int) {
+	cnt := 0
 	for i := 0; i < len(words); i++ {
 
 		if words[i] == "(up)" {
@@ -13,6 +29,7 @@ func ProcessCommands(words []string) []string {
 				words[i-1] = strings.ToUpper(words[i-1])
 				words = append(words[:i], words[i+1:]...)
 				i--
+				cnt++
 			}
 			continue
 		}
@@ -22,6 +39,7 @@ func ProcessCommands(words []string) []string {
 				words[i-1] = Capitalize(words[i-1])
 				words = append(words[:i], words[i+1:]...)
 				i--
+				cnt++
 			}
 			continue
 		}
@@ -38,18 +56,18 @@ func ProcessCommands(words []string) []string {
 	}
 
 	correctedText := CorrectArticles(words)
-	return correctedText
+	return correctedText, cnt
 }
 
-func Capitalize(word string) string {
-	if len(word) == 0 {
-		return word
-	}
-	runes := []rune(word)
-	runes[0] = unicode.ToUpper(runes[0])
-	for i := 1; i < len(runes); i++ {
-		runes[i] = unicode.ToLower(runes[i])
-	}
+func ControlProcess() {
 
-	return string(runes)
+	cnt = 5
+	for cnt >= 0 {
+
+		str, cnt2 = ProcessCommands([]string{})
+		if cnt2 == 0 {
+			break
+		}
+		cnt++
+	}
 }
