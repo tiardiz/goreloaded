@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func Punctuation(text string) string {
-	lines := strings.Split(text, "\n")
+func Punctuation(lines []string) []string {
+	//lines := strings.Split(text, "\n")
 
 	for i := range lines {
 
@@ -45,7 +45,7 @@ func Punctuation(text string) string {
 
 	}
 
-	cleanedText := strings.Join(lines, "\n")
+	//cleanedText := strings.Join(lines, "\n")
 
-	return cleanedText
+	return lines
 }

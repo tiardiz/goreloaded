@@ -1,7 +1,7 @@
 Number Conversions
 
-7D(hex) (bin) files (up) (up)(up)(low) (up) (low) (up) (low) (low)(low)(low) (cap)(low) were added
-125 files were added
+7D(hex) (bin) files (up) (up)(up)(low) (up) (low) (up) (low) (low)(low)(low) (cap) were added
+125 Files were added
 
 
 a(hex) (bin)
@@ -9,6 +9,7 @@ a(hex) (bin)
 
 42 (hex)
 66
+
 101010 (bin)
 
 
@@ -16,13 +17,19 @@ a(hex) (bin)
 Words (up) (low) (up) (cap) (cap)
 
 
-
+WOW (LOW(LOW()))
 
 KEK (LOW(low))
 kek
 
+word (UP) (low)
+WORD
 
-101010       (bin) (hex)
+bla (low) (up)
+BLA
+
+
+101010(bin) (hex)
 66
 
 

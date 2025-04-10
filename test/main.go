@@ -2,32 +2,58 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 )
 
-func UpCommand(words []string) []string {
-	var result []string
+func Punctuation(lines []string) []string {
+	//lines := strings.Split(text, "\n")
 
-	for i := 0; i < len(words); i++ {
-		word := words[i]
+	for i := range lines {
 
-		if word == "(up)" {
+		quoteCount := 0
+
+		for _, ch := range lines[i] {
+			if ch == '"' {
+				quoteCount++
+			}
+		}
+		if quoteCount%2 != 0 {
+			lines[i] = "Error: missing pair of quotes"
 			continue
 		}
+		// what( is' it".    ->      what ( is' it ".
+		AddSpaceBeforeBraces := regexp.MustCompile(`([^ \t\r\n])(["({[\]])`)
+		lines[i] = AddSpaceBeforeBraces.ReplaceAllString(lines[i], "$1 $2")
+		// word ( up) -> word (up)
+		RemoveSpacesAfterBraces := regexp.MustCompile(`(["({[\]])\s*`)
+		lines[i] = RemoveSpacesAfterBraces.ReplaceAllString(lines[i], "$1")
+		// 1. what ,is it? -> what , is it?
+		AddSpaceAfterPreps := regexp.MustCompile(`([,.:;!?)}])(\S)`)
+		lines[i] = AddSpaceAfterPreps.ReplaceAllString(lines[i], "$1 $2")
+		// '   herro ' toyota -> 'herro' toyota
+		RemoveSpacesQuote := regexp.MustCompile(`'\s*(.*?)\s*'`)
+		lines[i] = RemoveSpacesQuote.ReplaceAllString(lines[i], "'$1' ")
+		// "  toyota " "" " mitsubishi "-> "toyota" "" "mitsubishi"
+		RemoveSpaces2Quote := regexp.MustCompile(`"\s*(.*?)\s*"`)
+		lines[i] = RemoveSpaces2Quote.ReplaceAllString(lines[i], "\"$1\" ")
+		// 2. what , is it? -> what, is it?
+		RemoveSpacesBeforePreps := regexp.MustCompile(`\s*([.,:;!?)}[\]-])`)
+		lines[i] = RemoveSpacesBeforePreps.ReplaceAllString(lines[i], "$1")
+		// убирает лишние пробелы
+		RemoveSapces := regexp.MustCompile(`\s+`)
+		lines[i] = RemoveSapces.ReplaceAllLiteralString(strings.TrimSpace(lines[i]), " ")
 
-		if i+1 < len(words) && words[i+1] == "(up)" && words[i+1] != "(cap)" && words[i+1] != "(low)" && words[i+1] != "(bin)" && words[i+1] != "(hex)" {
-			result = append(result, strings.ToUpper(word))
-			i++
-		} else {
-			result = append(result, word)
-		}
 	}
+	result := strings.Split(lines, " ")
+
+	//cleanedText := strings.Join(lines, "\n")
+
 	return result
 }
 
 func main() {
-	line := []string{"files", "(up)", "(up)", "(up)", "(low)", "(up)"}
-	result := UpCommand(line)
-	fmt.Println(result)
-
+	lines := []string{"words ,bla"}
+	lines = Punctuation(lines)
+	fmt.Println(lines[0])
 }
