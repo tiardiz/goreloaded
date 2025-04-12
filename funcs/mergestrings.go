@@ -33,13 +33,10 @@ func SplitAfterParenthesis(input []string) []string {
 	var result []string
 
 	for _, item := range input {
-		// Находим индекс символа ')'
 		index := strings.Index(item, ")")
 		if index != -1 {
-			// Добавляем часть строки до ')'
 			result = append(result, item[:index+1])
 
-			// Добавляем часть строки после ')'
 			if index+1 < len(item) {
 				result = append(result, item[index+1:])
 			}

@@ -7,7 +7,7 @@ hi 'hi' hi
 "hello"
 
 " " "   " " ""  " ",
-Error: missing pair of quotes
+"" "" "" "" ",
 
 " hello  " "world"
 "hello" "world"

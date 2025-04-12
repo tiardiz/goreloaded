@@ -16,11 +16,14 @@ func IsConjunction(word string) bool {
 }
 
 func StartsWithVowel(word string) bool {
-	if len(word) == 0 {
-		return false
+	for _, r := range word {
+		if r == '\'' {
+			continue
+		}
+		r = unicode.ToLower(r)
+		return r == 'a' || r == 'e' || r == 'i' || r == 'o' || r == 'u' || r == 'y' || r == 'h' && word[1] == 'o'
 	}
-	firstChar := unicode.ToLower(rune(word[0]))
-	return firstChar == 'a' || firstChar == 'e' || firstChar == 'i' || firstChar == 'o' || firstChar == 'u' || firstChar == 'y'
+	return false
 }
 
 func StartsWithUpperCase(word string) bool {
@@ -41,7 +44,6 @@ func CorrectArticles(words []string) []string {
 				continue
 			}
 
-			// Определяем, какой артикль должен стоять перед следующим словом
 			var correctedArticle string
 			if StartsWithVowel(nextWord) {
 				correctedArticle = "an"
@@ -49,16 +51,13 @@ func CorrectArticles(words []string) []string {
 				correctedArticle = "a"
 			}
 
-			// Сохраняем регистр артикля
 			if strings.ToUpper(currentWord) == currentWord {
-				// Если артикль был в верхнем регистре (например, "A")
-				correctedArticle = Capitalize(correctedArticle) // Используем Capitalize для заглавной буквы
+				correctedArticle = Capitalize(correctedArticle)
 			} else if unicode.IsUpper(rune(currentWord[0])) {
-				// Если артикль был с заглавной буквы (например, "An")
-				correctedArticle = Capitalize(correctedArticle) // Используем Capitalize для заглавной буквы
+
+				correctedArticle = Capitalize(correctedArticle)
 			}
 
-			// Заменяем артикль на корректный
 			words[i] = correctedArticle
 		}
 	}

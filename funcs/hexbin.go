@@ -1,15 +1,17 @@
 package firstproject
 
 import (
+	"math/big"
 	"strconv"
 )
 
 func HexToDecimal(word string) string {
-	num, err := strconv.ParseInt(word, 16, 64)
-	if err != nil {
-		return word
+	n := new(big.Int)
+	_, ok := n.SetString(word, 16)
+	if !ok {
+		return word // Не удалось распарсить как hex
 	}
-	return strconv.Itoa(int(num))
+	return n.String() // Возвращает десятичное представление
 }
 
 func BinToDecimal(word string) string {
@@ -26,18 +28,18 @@ func BinHexProcess(words []string) []string {
 		if words[i] == "(bin)" {
 			if i-1 >= 0 {
 				words[i-1] = BinToDecimal(words[i-1])
-				words = append(words[:i], words[i+1:]...)
-				i--
 			}
+			words = append(words[:i], words[i+1:]...)
+			i--
 			continue
 		}
 
 		if words[i] == "(hex)" {
 			if i-1 >= 0 {
 				words[i-1] = HexToDecimal(words[i-1])
-				words = append(words[:i], words[i+1:]...)
-				i--
 			}
+			words = append(words[:i], words[i+1:]...)
+			i--
 			continue
 		}
 	}

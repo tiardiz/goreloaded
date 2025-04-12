@@ -14,10 +14,10 @@ a(hex) (bin)
 
 
 
-Words (up) (low) (up) (cap) (cap)
+Words (up) (low) (up) (cap) (cap) (up, 999) (LOW(low, 9))
 
 
-WOW (LOW(LOW()))
+WOW (LOW(LOW(low)))
 
 KEK (LOW(low))
 kek
@@ -40,6 +40,8 @@ BLA
 
 (cap, 7)
 helo, (cap)
+(up)
+(cap)
 (bin)
 (hex)
 

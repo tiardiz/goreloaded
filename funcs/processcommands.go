@@ -5,6 +5,7 @@ func ProcessCommands(words []string) []string {
 
 		words = BinHexProcess(words)
 		words = UpLowCapCommands(words)
+		words = CommandsWithNums(words)
 
 	}
 	correctedText := CorrectArticles(words)

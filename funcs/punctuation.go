@@ -5,22 +5,23 @@ import (
 	"strings"
 )
 
-func Punctuation(lines []string) []string {
-	//lines := strings.Split(text, "\n")
+func Punctuation(text string) string {
+	lines := strings.Split(text, "\n")
 
 	for i := range lines {
 
-		quoteCount := 0
+		// quoteCount := 0
 
-		for _, ch := range lines[i] {
-			if ch == '"' {
-				quoteCount++
-			}
-		}
-		if quoteCount%2 != 0 {
-			lines[i] = "Error: missing pair of quotes"
-			continue
-		}
+		// for _, ch := range lines[i] {
+		// 	if ch == '"' {
+		// 		quoteCount++
+		// 	}
+		// }
+		// if quoteCount%2 != 0 {
+		// 	lines[i] = "Error: missing pair of quotes"
+		// 	continue
+		// }
+
 		// what( is' it".    ->      what ( is' it ".
 		AddSpaceBeforeBraces := regexp.MustCompile(`([^ \t\r\n])(["({[\]])`)
 		lines[i] = AddSpaceBeforeBraces.ReplaceAllString(lines[i], "$1 $2")
@@ -45,7 +46,7 @@ func Punctuation(lines []string) []string {
 
 	}
 
-	//cleanedText := strings.Join(lines, "\n")
+	cleanedText := strings.Join(lines, "\n")
 
-	return lines
+	return cleanedText
 }
