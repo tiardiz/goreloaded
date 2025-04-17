@@ -317,3 +317,33 @@ AN ALEM AN ALEM
 
 a (hex) apple
 10 apple
+
+KEK (LOW(LOW(low)))
+kek
+
+a (hex) (bin)
+vggvgv (cap, 4)
+
+a apple
+a hour
+a hat
+
+(cap)
+(up,-1)
+an university a university a hour an hour an heir a heir a house an house
+a a a a (up,-2)
+
+it's my choice "a"'
+
+aaa (HEX(low))
+
+
+harold wilson (cap, 2) : ' I am a optimist ,but,, ,a,, optimist who carries a raincoat . '
+
+ansar,bb,, , ,,, , ...'' '' '' "" "" "" ''"", ,(cap,4)
+
+ccC aa bb (cap)
+
+aa aa (up) (hex)
+(bin)
+A (HEX(low)) (bin)
