@@ -57,7 +57,7 @@ Harold Wilson: 'I am an optimist, but an optimist who carries a raincoat.'
 
 ARTICLE CORRECTIONS
 
-a apple
+a 'apple'
 an apple
 
 an cat
@@ -309,7 +309,7 @@ ONE, TWO, THREE...
 one, two, three... (up, -9999999999999999999)
 one, two, three...
 
-a (cap) alem (cap) and a alem (up, 2)
+a (cap) 'alem' (cap) and a alem (up, 2)
 An Alem and AN ALEM
 
 a (up) ALEM (low) a alem (up, 3)

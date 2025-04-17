@@ -57,7 +57,7 @@ Harold Wilson: 'I am an optimist, but an optimist who carries a raincoat.'
 
 ARTICLE CORRECTIONS
 
-an apple
+an 'apple'
 an apple
 
 a cat
@@ -128,7 +128,7 @@ ME
 word
 word
 
-It was an 'amazing' experience?!
+It was an 'Amazing' experience?!
 It was an 'Amazing' experience?!
 
 ARTICLES AND TRANSFORMATIONS
@@ -309,7 +309,7 @@ ONE, TWO, THREE...
 one, two, three...
 one, two, three...
 
-An Alem and An ALEM
+An 'Alem' and An ALEM
 An Alem and An ALEM
 
 An ALEM An ALEM

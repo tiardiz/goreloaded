@@ -42,11 +42,17 @@ func Capitalize(word string) string {
 	if len(word) == 0 {
 		return word
 	}
-	runes := []rune(word)
-	runes[0] = unicode.ToUpper(runes[0])
-	for i := 1; i < len(runes); i++ {
-		runes[i] = unicode.ToLower(runes[i])
-	}
 
+	runes := []rune(word)
+	for i, r := range runes {
+		if unicode.IsLetter(r) {
+			runes[i] = unicode.ToUpper(r)
+			// Остальные буквы — строчные
+			for j := i + 1; j < len(runes); j++ {
+				runes[j] = unicode.ToLower(runes[j])
+			}
+			break
+		}
+	}
 	return string(runes)
 }
